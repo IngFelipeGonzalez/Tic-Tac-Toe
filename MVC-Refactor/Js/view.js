@@ -18,7 +18,7 @@ export class View {
     this.$.turnText = document.querySelector("[data-id='turn-txt']");
 
     this.$.menu.addEventListener("click", (event) => {
-      this.toggleMenu();
+      this.#toggleMenu();
     });
   }
 
@@ -36,9 +36,17 @@ export class View {
     });
   }
 
-  toggleMenu() {
+  modalFunction(message) {
+    this.$.endGameTag.classList.toggle("hidden");
+    this.$.endGameLabel.innerHTML = `${message}`;
+  }
+
+  #toggleMenu() {
     this.$.menuItems.classList.toggle("hidden");
     this.$.menu.classList.toggle("border");
+    const icon = this.$.menu.querySelector("i");
+    icon.classList.toggle("fa-chevron-down");
+    icon.classList.toggle("fa-chevron-up");
     // const styles = window.getComputedStyle(this.$.menu);
     // console.log(styles.border);
     // if (styles.border === "2px solid rgb(255, 255, 255)") {
@@ -46,5 +54,23 @@ export class View {
     // } else {
     //   this.$.menu.style.border = "2px solid white";
     // }
+  }
+
+  setTurnIndicator(player) {
+    const icon = document.createElement("i");
+    const label = document.createElement("p");
+
+    icon.classList.add("fa-solid", player.colorClass, player.iconClass);
+    label.classList.add(player.colorClass);
+
+    label.innerText = `${player.name}, you're up!`;
+    this.$.turnIdicator.replaceChildren(icon, label);
+  }
+
+  handlerPlayerMove(squareElement, player) {
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid", player.colorClass, player.iconClass);
+
+    squareElement.replaceChildren(icon);
   }
 }

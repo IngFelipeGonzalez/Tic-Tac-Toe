@@ -1,7 +1,24 @@
 import { View } from "./view.js";
+import { Model } from "./model.js";
+
+const players = [
+  {
+    id: 1,
+    name: "Player 1",
+    iconClass: "fa-x",
+    colorClass: "turquoise",
+  },
+  {
+    id: 2,
+    name: "Player 2",
+    iconClass: "fa-o",
+    colorClass: "yellow",
+  },
+];
 
 function init() {
   const view = new View();
+  const model = new Model(players);
 
   view.bindGameResetEvent((event) => {
     console.log("Reset event");
@@ -15,8 +32,20 @@ function init() {
   });
 
   view.bindPlayerMoveEvent((event) => {
-    console.log("Player move event");
-    console.log(event);
+    const square = event.currentTarget;
+    if (square.hasChildNodes()) {
+      return;
+    }
+    view.handlerPlayerMove(square, model.game.currentPlayer);
+
+    model.playerMove(+square.id);
+
+    if (model.game.status.isComplete) {
+      view.modalFunction(model.game.currentPlayer.name);
+      return;
+    }
+
+    view.setTurnIndicator(model.game.currentPlayer);
   });
 }
 

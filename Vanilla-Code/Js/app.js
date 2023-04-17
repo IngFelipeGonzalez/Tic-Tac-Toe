@@ -137,7 +137,6 @@ const App = {
           playerId: currentPlayer,
         });
 
-        console.log(App.state.moves);
         square.replaceChildren(icon);
 
         //Check if there is a winner or a tie game
@@ -146,7 +145,7 @@ const App = {
         console.log(statusGame);
         //Change de DOM in end game case (update scores)
         if (statusGame.status === "complete") {
-          //turn indicator reset
+          //turn indicator reset (Could be better with add)
           App.data.turnIdicator.classList.remove("turquoise");
           App.data.turnIdicator.classList.remove("yellow");
           App.data.turnIdicator.classList.add("turquoise");
